@@ -401,7 +401,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 
 		input.tabIndex = -1;
-        input.ariaHidden = true;
+        input.ariaHidden = 'true';
 		input.insertAdjacentElement('afterend', self.wrapper);
 
 		self.sync(false);
