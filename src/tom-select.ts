@@ -114,6 +114,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		this.settings			= settings;
 		this.input				= input;
 		this.tabIndex			= input.tabIndex || 0;
+        this.ariaLabel			= input.ariaLabel || '';
 		this.is_select_tag		= input.tagName.toLowerCase() === 'select';
 		this.rtl				= /rtl/i.test(dir);
 		this.inputId			= getId(input, 'tomselect-'+instance_i);
@@ -192,7 +193,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			control_input		= getDom(settings.controlInput ) as HTMLInputElement;
 
 			// set attributes
-			var attrs = ['autocorrect','autocapitalize','autocomplete'];
+			var attrs = ['autocorrect','autocapitalize','autocomplete', 'aria-label'];
 			iterate(attrs,(attr:string) => {
 				if( input.getAttribute(attr) ){
 					setAttr(control_input,{[attr]:input.getAttribute(attr)});
@@ -242,14 +243,16 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 
 		setAttr(dropdown_content,{
-			id: listboxId
+			id: listboxId,
+            'aria-label': input.ariaLabel
 		});
 
 		setAttr(focus_node,{
 			role:'combobox',
 			'aria-haspopup':'listbox',
 			'aria-expanded':'false',
-			'aria-controls':listboxId
+			'aria-controls':listboxId,
+            'aria-label': input.ariaLabel
 		});
 
 		const control_id	= getId(focus_node,self.inputId + '-ts-control');
@@ -398,6 +401,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 
 		input.tabIndex = -1;
+        input.ariaHidden = true;
 		input.insertAdjacentElement('afterend', self.wrapper);
 
 		self.sync(false);
